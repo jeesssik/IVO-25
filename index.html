@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>+ Sinergia 2024</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content="Proyectos de Sinergia 2024" />
     <meta name="keywords" content="Sinergia, 2024, Proyectos, Tecnología, Informática, Arte, Sociedad, Salud, Negocios
     , ORT, ORT proyecto final" />
@@ -26,7 +26,19 @@
 
         header {
             text-align: center;
-            background-color: rgb(29, 29, 27);
+        }
+
+        .banner-container {
+            background-color: #1d1d1b;
+            padding: 20px 0;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Asegurar que el banner mantenga siempre el color #1d1d1b */
+        :root[data-theme='light'] .banner-container,
+        :root[data-theme='dark'] .banner-container {
+            background-color: #1d1d1b !important;
         }
 
         #logo-image {
@@ -556,8 +568,13 @@
 		}
 
 		header {
-			background: linear-gradient(180deg, rgba(17,24,44,.65), rgba(11,16,32,.9));
+			background: var(--card);
 			border-bottom: 1px solid rgba(255,255,255,.06);
+		}
+
+		/* El contenedor del banner mantiene siempre el color #1d1d1b */
+		.banner-container {
+			background: #1d1d1b !important;
 		}
 
 		.navbar {
@@ -729,13 +746,59 @@
 			pointer-events: none;
 			white-space: nowrap;
 		}
+
+		/* Responsive grid breakpoints */
+		@media (max-width: 1400px) {
+			.card-container { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+		}
+		@media (max-width: 1100px) {
+			.card-container { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+		}
+		@media (max-width: 900px) {
+			.card-container { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		}
+		@media (max-width: 480px) {
+			.card-container { grid-template-columns: 1fr; }
+		}
+
+		/* Mobile layout tweaks */
+		@media (max-width: 768px) {
+			.navbar { flex-direction: column; align-items: stretch; gap: 10px; }
+			.navbar-buttons { flex-wrap: wrap; gap: 8px; }
+			.button-55 { width: 100%; padding: 12px 16px; font-size: 16px; }
+			#buscador { width: 100%; font-size: 16px; }
+			.container { padding: 12px; }
+		}
+
+		/* Portrait optimizations */
+		@media (orientation: portrait) {
+			.card-container { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+			.flip-card-inner { height: 400px; }
+		}
+		@media (orientation: portrait) and (max-width: 480px) {
+			.card-container { grid-template-columns: 1fr; }
+			.flip-card-inner { height: 380px; }
+		}
+
+		/* Landscape on small-height devices */
+		@media (orientation: landscape) and (max-height: 500px) {
+			.banner-container { padding: 8px 0; }
+			.flip-card-inner { height: 360px; }
+		}
+
+		/* Safe-area support (iOS notch) */
+		@supports (padding: max(0px)) {
+			body { padding-bottom: env(safe-area-inset-bottom); }
+		}
     </style>
 </head>
 
 <body>
     <header>
-        <!--<img src="/static/archivos/anim/1663176/2012790/4506.gif" alt="Logo" id="logo-image" />-->
-        <img src="4506.gif" alt="Logo" id="logo-image" />
+        <div class="banner-container">
+            <!--<img src="/static/archivos/anim/1663176/2012790/4506.gif" alt="Logo" id="logo-image" />-->
+            <img src="4506.gif" alt="Logo" id="logo-image" />
+        </div>
     </header>
     <nav class="navbar">
         <div class="navbar-buttons">
