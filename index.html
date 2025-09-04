@@ -1173,7 +1173,7 @@
                         <span class="ribbon">Sinergizado</span>
                         <div >
                             <img src="${getLogoSrc(item)}" alt="Avatar"
-                            onerror="if(!this.dataset.fallback){this.dataset.fallback='campus'; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2287590/${item.id}.png';}">
+                            onerror="if(!this.dataset.fallback){this.dataset.fallback='campus'; this.src='https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png';} else {this.onerror=null; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2287590/${item.id}.png';}">
                         </div>
                         <h3 class="line-1">${item.Nombre}</h3>
                         <p class="line-2 slogan">${safeTruncate(item.Slogan || '', 90)}</p>
@@ -1245,7 +1245,7 @@
                             ${item.sinergizado === "TRUE" ? '<span class="ribbon">Sinergizado</span>' : ''}
                             <div >
                               <img src="${getLogoSrc(item)}" alt="Avatar"
-                              onerror="if(!this.dataset.fallback){this.dataset.fallback='campus'; this.src='https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png';} else {this.onerror=null; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2152652/${item.id}.png';}">
+                              onerror="if(!this.dataset.fallback){this.dataset.fallback='campus'; this.src='https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png';} else {this.onerror=null; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2287590/${item.id}.png';}">
                             </div>
                         <h3 class="line-1">${item.Nombre}</h3>
                         <p class="line-2 slogan">${safeTruncate(item.Slogan || '', 90)}</p>
@@ -1447,8 +1447,8 @@
                     <div class="flip-card-inner">
                         <div class="flip-card-front ${item.Impacto ? item.Impacto.split(',')[0].trim() : ''}">
                             <div>
-                              <img src='https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png'  alt="Avatar"
-                              onerror="this.onerror=null; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2152652/${item.id}.png';">
+                              <img src="${getLogoSrc(item)}" alt="Avatar"
+                              onerror="if(!this.dataset.fallback){this.dataset.fallback='campus'; this.src='https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png';} else {this.onerror=null; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2287590/${item.id}.png';}">
                             </div>
                         <h3>${item.Nombre}</h3>
                         <p>${item.Slogan.slice(0, 80)}</p>
