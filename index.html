@@ -1098,8 +1098,8 @@
                     <div class="flip-card-front ">
                         ${item.sinergizado === "TRUE" ? '<span class="ribbon">Sinergizado</span>' : ''}
                         <div >
-                            <img src='https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png'  alt="Avatar"
-                            onerror="this.onerror=null; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2152652/${item.id}.png';">
+                            <img src="${getLogoSrc(item)}" alt="Avatar"
+                            onerror="if(!this.dataset.fallback){this.dataset.fallback='campus'; this.src='https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png';} else {this.onerror=null; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2152652/${item.id}.png';}">
                         </div>
                         <h3 class="line-1">${item.Nombre}</h3>
                         <p class="line-2 slogan">${safeTruncate(item.Slogan || '', 90)}</p>
@@ -1113,7 +1113,7 @@
 
                        <p>${truncateData(item.Integrantes, ',', 2, 'Integrantes')}
                         <b>ODS:</b>  ${item.ODS} <br>
-                         <b>Categoría:</b>  ${item.Categoria}
+                         <b>Categoría:</b>  ${item.Categoria}<br>
                        ${truncateData(item.superTags, ',', 0, 'Tipo de Producción')}</p>
                         <button class="girar-button" onclick="girarTarjeta(this)">Volver</button>
                         </div>
@@ -1172,8 +1172,8 @@
                     <div class="flip-card-front SinergizadoC">
                         <span class="ribbon">Sinergizado</span>
                         <div >
-                            <img src='https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png'  alt="Avatar"
-                            onerror="this.onerror=null; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2152652/${item.id}.png';">
+                            <img src="${getLogoSrc(item)}" alt="Avatar"
+                            onerror="if(!this.dataset.fallback){this.dataset.fallback='campus'; this.src='https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png';} else {this.onerror=null; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2152652/${item.id}.png';}">
                         </div>
                         <h3 class="line-1">${item.Nombre}</h3>
                         <p class="line-2 slogan">${safeTruncate(item.Slogan || '', 90)}</p>
@@ -1186,7 +1186,7 @@
                         ${truncateDescription(item.Descripcion, 10, item)}
 
                        <p>${truncateData(item.Integrantes, ',', 2, 'Integrantes')}
-                        <b>ODS:</b>  ${item.ODS}
+                        <b>ODS:</b>  ${item.ODS}<br>
                          ${truncateData(item.superTags, '-', 0, 'Tipo de Producción')}</p>
                         <button class="girar-button" onclick="girarTarjeta(this)">Volver</button>
                         </div>
@@ -1244,8 +1244,8 @@
                         <div class="flip-card-front">
                             ${item.sinergizado === "TRUE" ? '<span class="ribbon">Sinergizado</span>' : ''}
                             <div >
-                              <img src='https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png'  alt="Avatar"
-                              onerror="this.onerror=null; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2152652/${item.id}.png';">
+                              <img src="${getLogoSrc(item)}" alt="Avatar"
+                              onerror="if(!this.dataset.fallback){this.dataset.fallback='campus'; this.src='https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png';} else {this.onerror=null; this.src='https://recursos.ort.edu.ar/static/archivos/anim/1663176/2152652/${item.id}.png';}">
                             </div>
                         <h3 class="line-1">${item.Nombre}</h3>
                         <p class="line-2 slogan">${safeTruncate(item.Slogan || '', 90)}</p>
@@ -1258,7 +1258,7 @@
                                 ${truncateDescription(item.Descripcion, 10, item)}
                                 <p>${truncateData(item.Integrantes, ',', 2, 'Integrantes')}
                                 <b>ODS:</b>  ${item.ODS} <br>
-                                <b>Categoría:</b>  ${item.Categoria}<br> 
+                                <b>Categoría:</b>  ${item.Categoria}<br>
                                 ${truncateData(item.superTags, '-', 0, 'Tipo de Producción')}</p>
                                 <button class="girar-button" onclick="girarTarjeta(this)">Volver</button>
                             </div>
@@ -1306,10 +1306,51 @@
 
         if (words.length > 0) {
           // Si no hay un guion, mostramos solo la primera palabra
-          return `<b onclick="mostrarDescripcionCompleta('${tipoProduccion}')">${txt}:</b> ${truncatedWords}`;
+          return `<b onclick="mostrarDescripcionCompleta('${tipoProduccion}')">${txt}:</b> ${truncatedWords}<br>`;
         } else {
-          return `<b>${txt}:</b> ${tipoProduccion}`;
+          return `<b>${txt}:</b> ${tipoProduccion}<br>`;
         }
+      }
+    }
+
+    // Obtiene una URL directa de visualización para logos, incluyendo enlaces de Google Drive
+    function getLogoSrc(item) {
+      try {
+        var logo = item.Logo;
+        if (!logo || typeof logo !== 'string') {
+          return `https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png`;
+        }
+
+        // Normalizar strings
+        var trimmed = logo.trim();
+
+        // Si es un enlace de Google Drive, convertir a vista directa
+        if (trimmed.includes('drive.google.com')) {
+          var driveId = '';
+
+          // Caso open?id=XXXX o uc?id=XXXX
+          var idMatch = trimmed.match(/[?&]id=([^&#]+)/);
+          if (idMatch && idMatch[1]) {
+            driveId = idMatch[1];
+          }
+
+          // Caso /file/d/XXXX/
+          if (!driveId) {
+            var fileMatch = trimmed.match(/\/file\/d\/([^/]+)/);
+            if (fileMatch && fileMatch[1]) {
+              driveId = fileMatch[1];
+            }
+          }
+
+          if (driveId) {
+            return `https://drive.google.com/uc?export=view&id=${driveId}`;
+          }
+        }
+
+        // Si es otra URL válida, usarla tal cual
+        return trimmed;
+      } catch (e) {
+        return `https://campus.ort.edu.ar/static/tmp/jquery-file-upload/${item.id}.png`;
       }
     }
 
